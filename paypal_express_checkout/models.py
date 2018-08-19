@@ -10,6 +10,24 @@ from .constants import STATUS_CHOICES
 
 
 @python_2_unicode_compatible
+class Currency(models.Model):
+    """Currency model"""
+    sign = models.CharField(verbose_name=_("Sign"),
+                            help_text=_("Sign of the currency of exchange. ex: $"),
+                            max_length=32)
+    code = models.CharField(verbose_name=_("Code"),
+                            help_text=_("Currency code. ex: USD"),
+                            max_length=32)
+    description = models.CharField(verbose_name=_("Description"),
+                                   max_length=255,
+                                   help_text=_("Description of currency"),
+                                   blank=True, null=True)
+
+    def __str__(self):
+        return "{0.description} ({0.sign})".format(self)
+
+
+@python_2_unicode_compatible
 class Item(models.Model):
     """
     Holds the information about an item, that is on Sale.
@@ -45,13 +63,10 @@ class Item(models.Model):
         verbose_name=_('Value'),
     )
 
-    currency = models.CharField(
-        max_length=16,
-        default='USD',
-    )
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
 
     def __str__(self):
-        return u'{0} - {1} {2}'.format(self.name, self.value, self.currency)
+        return '{0.name} - {0.currency.sign} {0.value}'.format(self)
 
 
 @python_2_unicode_compatible
@@ -106,6 +121,8 @@ class PaymentTransaction(models.Model):
         max_length=32,
         verbose_name=_('Transaction ID'),
     )
+
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
 
     value = models.DecimalField(
         max_digits=8,

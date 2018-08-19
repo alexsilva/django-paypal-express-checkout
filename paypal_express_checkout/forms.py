@@ -18,6 +18,7 @@ from .models import (
     PaymentTransaction,
     PaymentTransactionError,
     PurchasedItem,
+    Currency
 )
 from .settings import API_URL, LOGIN_URL
 from .utils import urlencode
@@ -119,10 +120,9 @@ class DoExpressCheckoutForm(PayPalFormMixin, forms.Form):
         currency = None
         if len(items) != 0:
             if getattr(items[0].item, 'currency', None) is not None:
-                currency = items[0].item.currency
-            elif getattr(
-                    items[0].content_object, 'currency', None) is not None:
-                currency = items[0].content_object.currency
+                currency = items[0].item.currency.code
+            elif getattr(items[0].content_object, 'currency', None) is not None:
+                currency = items[0].content_object.currency.code
         if not currency:
             currency = CURRENCYCODE
         post_data.update({
@@ -242,7 +242,7 @@ class SetExpressCheckoutFormMixin(PayPalFormMixin, forms.Form):
         if (
                 len(item_quantity_list) != 0 and
                 getattr(item_quantity_list[0][0], 'currency') is not None):
-            currency = item_quantity_list[0][0].currency
+            currency = item_quantity_list[0][0].currency.code
         else:
             currency = CURRENCYCODE
 
@@ -289,11 +289,14 @@ class SetExpressCheckoutFormMixin(PayPalFormMixin, forms.Form):
         parsed_response = self.call_paypal(api_url, post_data)
         if parsed_response.get('ACK')[0] == 'Success':
             token = parsed_response.get('TOKEN')[0]
+            currency_code = post_data['PAYMENTREQUEST_0_CURRENCYCODE']
+            value = post_data['PAYMENTREQUEST_0_AMT']
             transaction = PaymentTransaction(
                 user=self.user,
                 date=now(),
                 transaction_id=token,
-                value=post_data['PAYMENTREQUEST_0_AMT'],
+                value=value,
+                currency=Currency.objects.get(code=currency_code),
                 status=PAYMENT_STATUS['checkout'],
                 content_object=self.get_content_object(),
             )

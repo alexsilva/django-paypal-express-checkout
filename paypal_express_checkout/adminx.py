@@ -87,6 +87,11 @@ class PurchasedItemAdmin(object):
         return obj.user.email
 
 
+class CurrencyAdmin(object):
+    """"""
+
+
+xadmin.sites.site.register(models.Currency, CurrencyAdmin)
 xadmin.sites.site.register(models.Item, ItemAdmin)
 xadmin.sites.site.register(models.PaymentTransaction, PaymentTransactionAdmin)
 xadmin.sites.site.register(models.PurchasedItem, PurchasedItemAdmin)

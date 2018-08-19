@@ -2,7 +2,7 @@
 import logging
 import urllib.parse
 
-import urllib3
+import requests
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -41,18 +41,15 @@ class PayPalFormMixin(object):
           this method so that it can be logged in case of an error.
 
         """
-        data = urlencode(post_data)
-        http = urllib3.PoolManager()
         try:
-            response = http.request("GET",
-                                    api_url,
-                                    data=post_data)
-        except urllib3.exceptions.HTTPError as ex:
+            response = requests.post(api_url, data=post_data)
+        except requests.exceptions.HTTPError as ex:
             self.log_error(
-                ex, api_url=api_url, request_data=data,
+                ex, api_url=api_url,
+                request_data=urlencode(post_data),
                 transaction=transaction)
         else:
-            parsed_response = urllib.parse.parse_qs(response.read())
+            parsed_response = urllib.parse.parse_qs(response.text)
             return parsed_response
 
     def get_cancel_url(self):

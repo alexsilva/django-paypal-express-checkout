@@ -17,14 +17,14 @@ from .models import (
     Item,
     PaymentTransaction,
     PaymentTransactionError,
-    PurchasedItem,
-    Currency
+    PurchasedItem
 )
 from .settings import API_URL, LOGIN_URL
-from .utils import urlencode
+from .utils import urlencode, get_currency_model
 
 logger = logging.getLogger(__name__)
 
+Currency = get_currency_model()
 
 CURRENCYCODE = getattr(settings, 'PAYPAL_CURRENCYCODE', 'USD')
 

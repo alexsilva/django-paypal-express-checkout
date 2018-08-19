@@ -15,6 +15,9 @@ this app is capable of doing the PayPal express checkout handling for you.
 Check the "Installation" section on what you are yet able to set up.
 
 
+In testing with django 2.0+ and python 3.7+
+
+
 Installation
 ------------
 

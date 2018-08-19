@@ -24,13 +24,13 @@ class ItemAdmin(object):
 class PaymentTransactionAdmin(object):
     """Custom admin for the ``PaymentTransaction`` model."""
     list_display = [
-        'creation_date', 'date', 'user', 'user_email', 'transaction_id',
+        'date', 'user', 'user_email', 'transaction_id',
         'value', 'status',
     ]
     search_fields = [
         'transaction_id', 'status', 'user__email', 'user__' + username_field]
     date_hierarchy = 'creation_date'
-    list_filter = ['status']
+    list_filter = ['status', 'creation_date']
     raw_id_fields = ['user', ]
 
     def user_email(self, obj):

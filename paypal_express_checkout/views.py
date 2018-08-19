@@ -24,6 +24,10 @@ SetExpressCheckoutForm = getattr(module, class_name)
 
 class PaymentViewMixin(object):
     """A Mixin to combine common methods of several payment related views."""
+
+    def __init__(self):
+        self.user = None
+
     @conditional_decorator(
         method_decorator(login_required),
         not settings.ALLOW_ANONYMOUS_CHECKOUT)

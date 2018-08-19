@@ -1,10 +1,9 @@
 """Views for the ``paypal_express_checkout`` app."""
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView, View
-from django.utils.decorators import method_decorator
-
 from django_libs.utils.decorators import conditional_decorator
 
 from . import settings
@@ -13,9 +12,8 @@ from .forms import (
     DoExpressCheckoutForm,
 )
 from .models import PaymentTransaction
-from .signals import payment_completed, payment_status_updated
 from .settings import SET_CHECKOUT_FORM
-
+from .signals import payment_completed, payment_status_updated
 
 # importing the name of the current form for SetExpressCheckout
 class_name = SET_CHECKOUT_FORM.split('.')[-1]
@@ -128,7 +126,7 @@ class SetExpressCheckoutView(PaymentViewMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super(SetExpressCheckoutView, self).get_form_kwargs()
-        kwargs.update({'user': self.user})
+        kwargs.update({'user': self.request.user})
         return kwargs
 
 

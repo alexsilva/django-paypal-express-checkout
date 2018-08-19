@@ -72,11 +72,13 @@ class PaymentTransaction(models.Model):
     """
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
         verbose_name=_('User'),
     )
 
     content_type = models.ForeignKey(
         ContentType,
+        on_delete=models.SET_NULL,
         blank=True, null=True,
     )
 
@@ -145,6 +147,7 @@ class PurchasedItem(models.Model):
     """
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
         verbose_name=_('User'),
     )
 
@@ -156,17 +159,20 @@ class PurchasedItem(models.Model):
 
     transaction = models.ForeignKey(
         PaymentTransaction,
+        on_delete=models.CASCADE,
         verbose_name=_('Transaction'),
     )
 
     item = models.ForeignKey(
         Item,
+        on_delete=models.CASCADE,
         verbose_name=_('Item'),
         null=True, blank=True,
     )
 
     content_type = models.ForeignKey(
         ContentType,
+        on_delete=models.SET_NULL,
         blank=True, null=True,
     )
 
@@ -219,6 +225,7 @@ class PaymentTransactionError(models.Model):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
         verbose_name=_('User'),
     )
 
@@ -240,6 +247,7 @@ class PaymentTransactionError(models.Model):
 
     transaction = models.ForeignKey(
         PaymentTransaction,
+        on_delete=models.SET_NULL,
         blank=True, null=True,
         verbose_name=_('Payment transaction'),
     )

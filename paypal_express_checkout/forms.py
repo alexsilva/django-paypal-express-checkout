@@ -43,7 +43,8 @@ class PayPalFormMixin(object):
         """
         try:
             response = requests.post(api_url, data=post_data)
-        except requests.exceptions.HTTPError as ex:
+        except (requests.exceptions.HTTPError,
+                requests.exceptions.ConnectionError) as ex:
             self.log_error(
                 ex, api_url=api_url,
                 request_data=urlencode(post_data),

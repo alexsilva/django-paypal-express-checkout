@@ -82,6 +82,7 @@ class DoExpressCheckoutView(PaymentViewMixin, FormView):
     def get_context_data(self, **kwargs):
         ctx = super(DoExpressCheckoutView, self).get_context_data(**kwargs)
         ctx.update({
+            'currency': self.transaction.currency,
             'value': self.transaction.value,
             'token': self.token,
             'payerid': self.payerID,

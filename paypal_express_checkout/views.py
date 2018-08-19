@@ -126,7 +126,7 @@ class SetExpressCheckoutView(PaymentViewMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super(SetExpressCheckoutView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
+        kwargs.update({'user': self.user})
         return kwargs
 
 

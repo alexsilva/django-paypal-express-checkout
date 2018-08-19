@@ -89,5 +89,5 @@ class PurchasedItemAdmin(object):
 
 xadmin.sites.site.register(models.Item, ItemAdmin)
 xadmin.sites.site.register(models.PaymentTransaction, PaymentTransactionAdmin)
-xadmin.sites.site.register(models.PaymentTransactionError, PaymentTransactionErrorAdmin)
 xadmin.sites.site.register(models.PurchasedItem, PurchasedItemAdmin)
+xadmin.sites.site.register(models.PaymentTransactionError, PaymentTransactionErrorAdmin)

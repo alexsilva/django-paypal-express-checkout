@@ -26,6 +26,10 @@ class Currency(models.Model):
     def __str__(self):
         return "{0.description} ({0.sign})".format(self)
 
+    class Meta:
+        verbose_name = _("Currency")
+        verbose_name_plural = _("Currencies")
+
 
 @python_2_unicode_compatible
 class Item(models.Model):

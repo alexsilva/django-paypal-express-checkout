@@ -140,7 +140,9 @@ class DoExpressCheckoutForm(PayPalFormMixin, forms.Form):
         post_data = self.get_post_data()
         api_url = API_URL
         parsed_response = self.call_paypal(api_url, post_data)
-        if parsed_response.get('ACK')[0] == 'Success':
+        if parsed_response is None:
+            return redirect(reverse('paypal_error'))
+        elif parsed_response.get('ACK')[0] == 'Success':
             transaction_id = parsed_response.get(
                 'PAYMENTINFO_0_TRANSACTIONID')[0]
             self.transaction.transaction_id = transaction_id

@@ -1,6 +1,7 @@
 """Admins for the models of the ``paypal_express_checkout`` app."""
 import django.contrib.auth
 import xadmin.sites
+from django.utils.translation import ugettext_lazy as _
 
 from . import models
 
@@ -25,13 +26,19 @@ class PaymentTransactionAdmin(object):
     """Custom admin for the ``PaymentTransaction`` model."""
     list_display = [
         'date', 'user', 'user_email', 'transaction_id',
-        'value', 'status',
+        'list_display_value', 'status',
     ]
     search_fields = [
         'transaction_id', 'status', 'user__email', 'user__' + username_field]
     date_hierarchy = 'creation_date'
     list_filter = ['status', 'creation_date']
     raw_id_fields = ['user', ]
+
+    def list_display_value(self, instance):
+        return "{0.currency.sign} {0.value}".format(instance)
+    list_display_value.short_description = _("Value")
+    list_display_value.is_column = True
+    list_display_value.admin_order_field = "value"
 
     def user_email(self, obj):
         return obj.user.email

@@ -96,10 +96,14 @@ class PurchasedItemAdmin(object):
 
 
 class CurrencyAdmin(object):
-    """"""
+    """Currency Admin"""
 
 
-xadmin.sites.site.register(get_currency_model(), CurrencyAdmin)
+try:
+    xadmin.sites.site.register(get_currency_model(), CurrencyAdmin)
+except xadmin.sites.AlreadyRegistered:
+    pass # just ignore
+
 xadmin.sites.site.register(models.Item, ItemAdmin)
 xadmin.sites.site.register(models.PaymentTransaction, PaymentTransactionAdmin)
 xadmin.sites.site.register(models.PurchasedItem, PurchasedItemAdmin)

@@ -1,15 +1,14 @@
 """Forms for the ``paypal_express_checkout`` app."""
-import httplib
 import logging
-import urllib2
-import urlparse
+import urllib.parse
 
+import urllib3
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
@@ -22,7 +21,6 @@ from .models import (
 )
 from .settings import API_URL, LOGIN_URL
 from .utils import urlencode
-
 
 logger = logging.getLogger(__name__)
 
@@ -44,23 +42,22 @@ class PayPalFormMixin(object):
 
         """
         data = urlencode(post_data)
+        http = urllib3.PoolManager()
         try:
-            response = urllib2.urlopen(api_url, data=data)
-        except (
-                urllib2.HTTPError,
-                urllib2.URLError,
-                httplib.HTTPException) as ex:
+            response = http.request("GET",
+                                    api_url,
+                                    data=post_data)
+        except urllib3.exceptions.HTTPError as ex:
             self.log_error(
                 ex, api_url=api_url, request_data=data,
                 transaction=transaction)
         else:
-            parsed_response = urlparse.parse_qs(response.read())
+            parsed_response = urllib.parse.parse_qs(response.read())
             return parsed_response
 
     def get_cancel_url(self):
         """Returns the paypal cancel url."""
-        return settings.HOSTNAME + reverse(
-            'paypal_canceled', kwargs=self.get_url_kwargs())
+        return settings.HOSTNAME + reverse('paypal_canceled', kwargs=self.get_url_kwargs())
 
     def get_error_url(self):
         """Returns the url of the payment error page."""

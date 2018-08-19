@@ -4,6 +4,7 @@ import xadmin.sites
 from django.utils.translation import ugettext_lazy as _
 
 from . import models
+from .utils import get_currency_model
 
 try:
     user_model = django.contrib.auth.get_user_model()
@@ -98,7 +99,7 @@ class CurrencyAdmin(object):
     """"""
 
 
-xadmin.sites.site.register(models.Currency, CurrencyAdmin)
+xadmin.sites.site.register(get_currency_model(), CurrencyAdmin)
 xadmin.sites.site.register(models.Item, ItemAdmin)
 xadmin.sites.site.register(models.PaymentTransaction, PaymentTransactionAdmin)
 xadmin.sites.site.register(models.PurchasedItem, PurchasedItemAdmin)

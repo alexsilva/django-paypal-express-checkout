@@ -7,28 +7,30 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from .constants import STATUS_CHOICES
+from .settings import Currency
 
+if Currency is None:
 
-@python_2_unicode_compatible
-class Currency(models.Model):
-    """Currency model"""
-    sign = models.CharField(verbose_name=_("Sign"),
-                            help_text=_("Sign of the currency of exchange. ex: $"),
-                            max_length=32)
-    code = models.CharField(verbose_name=_("Code"),
-                            help_text=_("Currency code. ex: USD"),
-                            max_length=32)
-    description = models.CharField(verbose_name=_("Description"),
-                                   max_length=255,
-                                   help_text=_("Description of currency"),
-                                   blank=True, null=True)
+    @python_2_unicode_compatible
+    class Currency(models.Model):
+        """Currency model"""
+        sign = models.CharField(verbose_name=_("Sign"),
+                                help_text=_("Sign of the currency of exchange. ex: $"),
+                                max_length=32)
+        code = models.CharField(verbose_name=_("Code"),
+                                help_text=_("Currency code. ex: USD"),
+                                max_length=32)
+        description = models.CharField(verbose_name=_("Description"),
+                                       max_length=255,
+                                       help_text=_("Description of currency"),
+                                       blank=True, null=True)
 
-    def __str__(self):
-        return "{0.description} ({0.sign})".format(self)
+        def __str__(self):
+            return "{0.description} ({0.sign})".format(self)
 
-    class Meta:
-        verbose_name = _("Currency")
-        verbose_name_plural = _("Currencies")
+        class Meta:
+            verbose_name = _("Currency")
+            verbose_name_plural = _("Currencies")
 
 
 @python_2_unicode_compatible

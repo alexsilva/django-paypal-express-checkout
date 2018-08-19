@@ -289,7 +289,9 @@ class SetExpressCheckoutFormMixin(PayPalFormMixin, forms.Form):
 
         # making the post to paypal and handling the results
         parsed_response = self.call_paypal(api_url, post_data)
-        if parsed_response.get('ACK')[0] == 'Success':
+        if parsed_response is None:
+            return redirect(reverse('paypal_error'))
+        elif parsed_response.get('ACK')[0] == 'Success':
             token = parsed_response.get('TOKEN')[0]
             currency_code = post_data['PAYMENTREQUEST_0_CURRENCYCODE']
             value = post_data['PAYMENTREQUEST_0_AMT']

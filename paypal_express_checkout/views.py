@@ -1,5 +1,6 @@
 """Views for the ``paypal_express_checkout`` app."""
 from django.contrib.auth.decorators import login_required
+from django.db.transaction import atomic
 from django.http import Http404, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -156,14 +157,22 @@ class IPNListenerView(View):
 
         return super(IPNListenerView, self).dispatch(request, *args, **kwargs)
 
+    @atomic
     def post(self, request, *args, **kwargs):
         payment_status = request.POST.get('payment_status')
         self.payment_transaction.status = payment_status
-        self.payment_transaction.save()
-        if payment_status == PAYMENT_STATUS['completed']:
+
+        if not self.payment_transaction.completed and \
+                payment_status == PAYMENT_STATUS['completed']:
+            self.payment_transaction.completed = True
+            self.payment_transaction.save()
+
             payment_completed.send(self.__class__,
                                    transaction=self.payment_transaction,
                                    ipn_data=request.POST)
+        else:
+            self.payment_transaction.save()
+
         payment_status_updated.send(self.__class__,
                                     transaction=self.payment_transaction,
                                     ipn_data=request.POST)

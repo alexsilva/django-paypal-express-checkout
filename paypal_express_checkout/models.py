@@ -142,6 +142,9 @@ class PaymentTransaction(models.Model):
         verbose_name=_('Payment status'),
     )
 
+    completed = models.BooleanField(verbose_name=_("Completed"),
+                                    default=False)
+    
     class Meta:
         ordering = ['-creation_date', 'transaction_id', ]
 

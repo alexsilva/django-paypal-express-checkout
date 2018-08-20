@@ -69,6 +69,14 @@ class Item(models.Model):
         verbose_name=_('Value'),
     )
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
+        verbose_name=_('User'),
+        help_text=_("The item belongs to that user if related.")
+    )
+
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
 
     def __str__(self):

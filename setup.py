@@ -1,5 +1,7 @@
 import os
+
 from setuptools import setup, find_packages
+
 import paypal_express_checkout
 
 
@@ -26,6 +28,7 @@ setup(
     install_requires=[
         'django',
         'django_libs',
+        'requests'
     ],
     tests_require=[
         'fabric',

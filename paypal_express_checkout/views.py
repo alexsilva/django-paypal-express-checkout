@@ -161,6 +161,6 @@ class IPNListenerView(View):
         self.payment_transaction.status = payment_status
         self.payment_transaction.save()
         if payment_status == PAYMENT_STATUS['completed']:
-            payment_completed.send(self, transaction=self.payment_transaction)
-        payment_status_updated.send(self, transaction=self.payment_transaction)
+            payment_completed.send(self.__class__, transaction=self.payment_transaction)
+        payment_status_updated.send(self.__class__, transaction=self.payment_transaction)
         return HttpResponse()

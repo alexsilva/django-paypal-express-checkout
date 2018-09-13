@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 from .constants import STATUS_CHOICES
 from .settings import Currency
@@ -82,6 +82,10 @@ class Item(models.Model):
     def __str__(self):
         return '{0.name} - {0.currency.sign} {0.value}'.format(self)
 
+    class Meta:
+        verbose_name = _("Item")
+        verbose_name_plural = _("Items")
+
 
 @python_2_unicode_compatible
 class PaymentTransaction(models.Model):
@@ -155,6 +159,8 @@ class PaymentTransaction(models.Model):
     
     class Meta:
         ordering = ['-creation_date', 'transaction_id', ]
+        verbose_name = _("Payment transaction")
+        verbose_name_plural = _("Payment transactions")
 
     def __str__(self):
         return self.transaction_id
@@ -230,6 +236,8 @@ class PurchasedItem(models.Model):
 
     class Meta:
         ordering = ['-transaction__date', 'transaction__transaction_id', ]
+        verbose_name = _("Item")
+        verbose_name_plural = _("Items")
 
     def __str__(self):
         return u'{0} {1} of {2} [{3}]'.format(
@@ -288,3 +296,7 @@ class PaymentTransactionError(models.Model):
 
     def __str__(self):
         return str(self.date)
+
+    class Meta:
+        verbose_name = _("Payment transaction error")
+        verbose_name_plural = _("Payment transaction errors")

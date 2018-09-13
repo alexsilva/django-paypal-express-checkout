@@ -29,6 +29,7 @@ class PaymentTransactionAdmin(object):
         'date', 'user', 'user_email', 'transaction_id',
         'list_display_value', 'status',
     ]
+    exclude = ["completed"]
     search_fields = [
         'transaction_id', 'status', 'user__email', 'user__' + username_field]
     date_hierarchy = 'creation_date'

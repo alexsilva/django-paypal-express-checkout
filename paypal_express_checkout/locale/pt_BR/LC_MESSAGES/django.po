@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-13 13:59-0300\n"
+"POT-Creation-Date: 2018-09-13 18:52-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\paypal_express_checkout\adminx.py:40
+#: .\paypal_express_checkout\adminx.py:41
 #: .\paypal_express_checkout\models.py:69
 msgid "Value"
 msgstr "Valor"
@@ -30,7 +30,6 @@ msgstr "PAYPAL EXPRESS CHECKOUT"
 #: .\paypal_express_checkout\forms.py:351
 #: .\paypal_express_checkout\models.py:86
 #: .\paypal_express_checkout\models.py:209
-#: .\paypal_express_checkout\models.py:239
 msgid "Item"
 msgstr "Item"
 
@@ -93,7 +92,6 @@ msgid "The item belongs to that user if related."
 msgstr "O item pertence ao usuário se relacionado."
 
 #: .\paypal_express_checkout\models.py:87
-#: .\paypal_express_checkout\models.py:240
 msgid "Items"
 msgstr "Itens"
 
@@ -138,6 +136,14 @@ msgstr "Transação"
 #: .\paypal_express_checkout\models.py:229
 msgid "Price"
 msgstr "Preço"
+
+#: .\paypal_express_checkout\models.py:239
+msgid "Purchased item"
+msgstr "Item comprado"
+
+#: .\paypal_express_checkout\models.py:240
+msgid "Purchased items"
+msgstr "Itens comprados"
 
 #: .\paypal_express_checkout\models.py:276
 msgid "Paypal API URL"

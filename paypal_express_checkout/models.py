@@ -236,8 +236,8 @@ class PurchasedItem(models.Model):
 
     class Meta:
         ordering = ['-transaction__date', 'transaction__transaction_id', ]
-        verbose_name = _("Item")
-        verbose_name_plural = _("Items")
+        verbose_name = _("Purchased item")
+        verbose_name_plural = _("Purchased items")
 
     def __str__(self):
         return u'{0} {1} of {2} [{3}]'.format(

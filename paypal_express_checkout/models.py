@@ -241,11 +241,15 @@ class PurchasedItem(models.Model):
         verbose_name_plural = _("Purchased items")
 
     def __str__(self):
-        user = self.user
-        if hasattr(user, "email"):
-            user_repr = self.user.email
-        else:
-            user_repr = str(self.user)
+        from django.contrib.auth import get_user_model
+        try:
+            user = self.user
+            if hasattr(user, "email"):
+                user_repr = self.user.email
+            else:
+                user_repr = str(self.user)
+        except get_user_model().DoesNotExist:
+            user_repr = '(user not found)'
         return u'{0} {1} of {2} [{3}]'.format(self.quantity,
                                               self.item,
                                               user_repr,

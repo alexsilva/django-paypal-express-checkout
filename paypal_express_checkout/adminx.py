@@ -66,7 +66,7 @@ class PaymentTransactionErrorAdmin(object):
 class PurchasedItemAdmin(object):
     """Custom admin for the ``PurchasedItem`` model."""
     list_display = [
-        'identifier', 'date', 'user', 'user_email', 'transaction', 'item',
+        'date', 'list_display_user', 'transaction', 'item',
         'price', 'quantity', 'subtotal', 'total', 'status',
     ]
     list_filter = [
@@ -74,6 +74,17 @@ class PurchasedItemAdmin(object):
     search_fields = [
         'transaction__transaction_id', 'user__email', ]
     raw_id_fields = ['user', 'transaction', ]
+
+    def list_display_user(self, instance):
+        user = instance.user
+        if hasattr(user, 'email'):
+            return user.email
+        else:
+            return str(user)
+
+    list_display_user.short_description = _("User")
+    list_display_user.is_column = True
+    list_display_user.admin_order_field = "user"
 
     def date(self, obj):
         return obj.transaction.date

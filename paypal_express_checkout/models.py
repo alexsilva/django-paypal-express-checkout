@@ -77,7 +77,8 @@ class Item(models.Model):
         help_text=_("The item belongs to that user if related.")
     )
 
-    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    currency = models.ForeignKey(Currency, verbose_name=Currency._meta.verbose_name,
+                                 on_delete=models.CASCADE)
 
     def __str__(self):
         return '{0.name} - {0.currency.sign} {0.value}'.format(self)

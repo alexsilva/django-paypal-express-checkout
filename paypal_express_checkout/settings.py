@@ -15,7 +15,7 @@ LOGIN_URL = getattr(
 
 API_URL = getattr(
     settings, 'PAYPAL_API_URL',
-    'https://api.paypal.com/nvp')
+    'https://api-3t.paypal.com/nvp')
 
 ALLOW_ANONYMOUS_CHECKOUT = getattr(
     settings, 'PAYPAL_ALLOW_ANONYMOUS_CHECKOUT',

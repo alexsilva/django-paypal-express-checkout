@@ -16,7 +16,7 @@ username_field = getattr(user_model, 'USERNAME_FIELD', 'username')
 
 class ItemAdmin(object):
     """Custom admin for the ``Item`` model."""
-    list_display = ['name', 'description_short', 'value']
+    list_display = ['name', 'description_short', 'user', 'value']
     search_fields = ['name', 'description']
 
     def description_short(self, obj):
